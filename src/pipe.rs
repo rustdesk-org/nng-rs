@@ -193,11 +193,11 @@ impl PipeEvent
 	/// Converts the nng code into a PipeEvent.
 	pub(crate) fn from_code(event: i32) -> Self
 	{
-		match nng_sys::nng_pipe_ev::try_from(event) {
-			Ok(nng_sys::nng_pipe_ev::NNG_PIPE_EV_ADD_PRE) => PipeEvent::AddPre,
-			Ok(nng_sys::nng_pipe_ev::NNG_PIPE_EV_ADD_POST) => PipeEvent::AddPost,
-			Ok(nng_sys::nng_pipe_ev::NNG_PIPE_EV_REM_POST) => PipeEvent::RemovePost,
-			Err(_) => PipeEvent::Unknown(event),
+		match event as u32 {
+			nng_sys::NNG_PIPE_EV_ADD_PRE => PipeEvent::AddPre,
+			nng_sys::NNG_PIPE_EV_ADD_POST => PipeEvent::AddPost,
+			nng_sys::NNG_PIPE_EV_REM_POST => PipeEvent::RemovePost,
+			_ => PipeEvent::Unknown(event),
 		}
 	}
 }
